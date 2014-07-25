@@ -27,6 +27,6 @@ motor <- subset[subset$SCC %in% motor$SCC, ]
 g <- ggplot(motor, aes(year, Emissions, color = fips))
 g + geom_line(stat = "summary", fun.y = "sum") +
     ylab(expression('Total PM'[2.5]*" Emissions")) +
-    ggtitle("Comparison of Total Emissions in Baltimore City\n and Los Angeles County from 1999 to 2008") +
+    ggtitle("Comparison of Total Emissions From Motor\n Vehicle Sources in Baltimore City\n and Los Angeles County from 1999 to 2008") +
     scale_colour_discrete(name = "Group", label = c("Los Angeles","Baltimore"))
 dev.off()
