@@ -29,3 +29,35 @@ plot(motorEmissions, type = "l", xlab = "Year",
      ylab = expression('Total PM'[2.5]*" Emission"))
 
 dev.off()
+
+# ## Another understanding (different result)
+#
+# # Across the United States, how have emissions from coal combustion-related sources changed from 1999–2008?
+# 
+# # Utilize plyr to split-apply-combine to simplify our dataset
+# library(plyr)
+# # Utilizing ggplot2 for this plot
+# library(ggplot2)
+#  
+# unzip("./data/exdata-data-NEI_data.zip", exdir = "./data/")
+# 
+# # Read in the data file from disk. These are RDS files
+# SCC <- readRDS("./data/Source_Classification_Code.rds")
+# NEI <- readRDS("./data/summarySCC_PM25.rds")
+# 
+# Summarise the totals for sources in Baltimore City and type ON-ROAD to capture motor vehicles
+# motor <- ddply(NEI[NEI$fips == "24510" 
+#                    & NEI$type == "ON-ROAD",],
+#                .(type,year), summarise, 
+#                TotalEmissions = sum(Emissions))
+# 
+# # Set the graphics device to png
+# png(filename = "./figure/plot52.png")
+# 
+# # Plot the data -- finding total emissions each year
+# ggplot(motor, aes(year, TotalEmissions)) +
+#     geom_line() + geom_point() +
+#     labs(title = "Total Emissions from Motor Vehicles in Baltimore City",
+#             x = "Year", y = "Total Emissions")
+# 
+# dev.off()

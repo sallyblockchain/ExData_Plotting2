@@ -31,3 +31,41 @@ plot(coalEmissions, type = "l", xlab = "Year",
      ylab = expression('Total PM'[2.5]*" Emission"))
 
 dev.off()
+
+# ### Another understanding (smaller difference)
+# # Across the United States, how have emissions from coal combustion-related sources 
+# # changed from 1999–2008?
+# 
+# # Utilize plyr to split-apply-combine to simplify our dataset
+# library(plyr)
+# # Utilizing ggplot2 for this plot
+# library(ggplot2)
+# 
+# unzip("./data/exdata-data-NEI_data.zip", exdir = "./data/")
+# 
+# #Read in the data file from disk. These are RDS files
+# SCC <- readRDS("./data/Source_Classification_Code.rds")
+# NEI <- readRDS("./data/summarySCC_PM25.rds")
+# 
+# #Utilize only the Coal Combustion sources as found via the patter of Comb and Coal in the short name
+# #Collect the SCC numbers for the coal combustion sources
+# coalcom <- SCC[grep("Comb.*Coal", SCC$Short.Name), "SCC"]
+# 
+# #Create new dataframe of just the coalcombustion sources
+# coalcombNEI <- NEI[NEI$SCC %in% coalcom, ]
+# 
+# # Summarize the emissions by year to simplify the plot
+# total <- ddply(coalcombNEI, .(year), 
+#                      summarise, 
+#                      TotalEmissions = sum(Emissions))
+# 
+# # Set the graphics device to png
+# png(filename = "./figure/plot42.png")
+# 
+# # Plot the data -- finding total emissions each year
+# ggplot(total, aes(year, TotalEmissions)) +
+#     geom_line() + geom_point() +
+#     labs(title = "Total Emissions from Coal Combustion-Related Sources",
+#          x = "Year", y = "Total Emissions")
+# 
+# dev.off()
